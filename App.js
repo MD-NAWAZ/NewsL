@@ -1,21 +1,103 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import {createAppContainer} from 'react-navigation';
+import {createMaterialTopTabNavigator} from 'react-navigation-tabs';
+import {createStackNavigator} from 'react-navigation-stack';
+import Home from "./src/screens/Home";
+import Business from "./src/screens/Business";
+import Health from "./src/screens/Health";
+import Entertainment from "./src/screens/Entertainment";
+import Sports from "./src/screens/Sports";
+import Technology from "./src/screens/Technology";
+import NewsDetail from "./src/screens/NewsDetail";
+import SearchBar from "./src/screens/SearchBar";
+import {View,StyleSheet} from "react-native";
+import {Icon} from "react-native-elements";
+import {Provider as NewsProvider} from "./src/context/NewsContext";
+import {navigate, setNavigator} from "./src/Navigation/NavigationRef";
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+  const tab = createMaterialTopTabNavigator({
+    TopNews:{
+      screen:Home,
+      navigationOptions:{
+        title : "Top News",
+        headerTitleStyle : {
+          fontWeight: "bold",
+          fontSize: 200
+        }
+      }
+    },
+    Business:Business,
+    Health:Health,
+    Sports:Sports,
+    Entertainment:Entertainment,
+    Technology:Technology,
+    SearchBar:SearchBar
+    
+  },
+  {
+    tabBarPosition: 'top',
+    swipeEnabled: true,
+    animationEnabled: false,
+    tabBarOptions: {
+      scrollEnabled :true,
+      activeTintColor: '#FFFFFF',
+      inactiveTintColor: '#F8F8F8',
+      style: {
+        backgroundColor: 'black',
+      },
+      labelStyle: {
+        textAlign: 'center',
+      },
+      indicatorStyle: {
+        borderBottomColor: '#FFFFFF',
+        borderBottomWidth: 3,
+      },
+    },
+  }
+
   );
+  
+const Homestack = createStackNavigator({
+  Tab : {
+    screen : tab,
+    navigationOptions: {
+      headerStyle: {
+        backgroundColor: '#e60000',
+      },
+      headerTintColor: '#FFFFFF',
+      title: 'News Laundry',
+      headerRight: 
+        <View>
+          <Icon
+          raised
+          name='search'
+          type='font-awesome'
+          color='#f50'
+          onPress={() => navigate("SearchBar")} />
+          </View>
+    },
+  },
+  NewsDetail : {
+    screen :  NewsDetail,
+    navigationOptions: {
+      headerStyle: {
+        backgroundColor: '#e60000',
+      },
+      headerTintColor: '#FFFFFF',
+      title: 'News Laundry',
+    },  
+  }
+})
+
+const App = createAppContainer(Homestack);
+
+export default () => {
+  return (
+    <NewsProvider>
+      <App
+      ref = {(navigator)=>{setNavigator(navigator)}}
+      />
+    </NewsProvider>
+  )
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
