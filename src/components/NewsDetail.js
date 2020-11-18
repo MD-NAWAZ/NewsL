@@ -1,19 +1,12 @@
 import React,{useContext, useEffect} from "react";
-import {View,Text,StyleSheet,Image,Button} from "react-native";
+import {View,Text,StyleSheet,Image,Button,ScrollView} from "react-native";
 import {Context as NewsContext} from "../context/NewsContext";
 import {Dimensions} from "react-native"
-import { ScrollView } from "react-native-gesture-handler";
 
 const height = Dimensions.get("window").height;
 const width = Dimensions.get("window").width;
 
-const NewsDetail = ({navigation}) => {
-    const {state,getNews} = useContext(NewsContext);
-    const title = navigation.getParam("title");
-    
-    const Detail = state.find((ele)=> {
-        return ele.title === title;
-    })
+const NewsDetail = ({navigation,Detail}) => {
 
   return (
     <View style={styles.container}>

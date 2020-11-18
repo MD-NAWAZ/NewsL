@@ -5,17 +5,24 @@ import {navigate} from "../Navigation/NavigationRef";
 const newsReducer = (state,action) => {
     switch(action.type) {
         case "get_news":
-            return action.payload;
+            return {Result:[...action.payload]};
         case "search_result":
-            console.log(action.payload.length);
-            return action.payload;
+            console.log(action.payload.length,action.type);
+            return {Result:[...action.payload],searchShow:true};
+        case "clear_state":
+            return {state:null};
         default:
-            return state;
+            return ;
     }
 }
 
-const getNews = (dispatch) => {
-    
+const clearState = (dispatch)=> {
+    return () => {
+        dispatch({type:"clear_state"});
+    }
+}
+
+const getNews = (dispatch) => {    
     return async (category) => {
         const response = await NewsAPI.get(`top-headlines?country=in&category=${category}`);
 
@@ -27,8 +34,7 @@ const getNews = (dispatch) => {
 
 const searching = (dispatch) => {
     return async (search) => {
-        const response = await NewsAPI.get(`everything?q=${search}`);
-        console.log(response.data.articles.length);
+        const response = await NewsAPI.get(`everything?q=${search}`);        
         if(response){
             dispatch({type:"search_result",payload:response.data.articles});
         }
@@ -37,6 +43,6 @@ const searching = (dispatch) => {
 
 export const {Provider,Context} = CreateDataContext(
     newsReducer,
-    {getNews,searching},
-    {Refreshing:true,Response:""}
+    {getNews,searching,clearState},
+    {Refreshing:true,searchShow:false,Result:[]}
 )

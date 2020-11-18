@@ -8,8 +8,8 @@ import Health from "./src/screens/Health";
 import Entertainment from "./src/screens/Entertainment";
 import Sports from "./src/screens/Sports";
 import Technology from "./src/screens/Technology";
-import NewsDetail from "./src/screens/NewsDetail";
-import SearchBar from "./src/screens/SearchBar";
+import NewsDetailScreen from "./src/screens/NewsDetailScreen";
+import SearchScreen from "./src/screens/SearchScreen";
 import {View,StyleSheet} from "react-native";
 import {Icon} from "react-native-elements";
 import {Provider as NewsProvider} from "./src/context/NewsContext";
@@ -31,7 +31,7 @@ import {navigate, setNavigator} from "./src/Navigation/NavigationRef";
     Sports:Sports,
     Entertainment:Entertainment,
     Technology:Technology,
-    SearchBar:SearchBar
+    SearchBar:SearchScreen
     
   },
   {
@@ -78,7 +78,7 @@ const Homestack = createStackNavigator({
     },
   },
   NewsDetail : {
-    screen :  NewsDetail,
+    screen :  NewsDetailScreen,
     navigationOptions: {
       headerStyle: {
         backgroundColor: '#e60000',

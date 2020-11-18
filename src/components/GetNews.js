@@ -10,7 +10,7 @@ const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
 
 const GetNews = ({category,navigation}) => {
-    const {state,getNews} = useContext(NewsContext);
+    const {state:{Result},getNews} = useContext(NewsContext);
     const [refreshing,setrefreshing] = useState(false);
     
     
@@ -26,7 +26,7 @@ const GetNews = ({category,navigation}) => {
         />
         {!refreshing?
         <FlatList
-        data={state}
+        data={Result}
         keyExtractor = {(item)=>{item.title}}
         onRefresh = {()=>onRefreshing()}
         refreshing = {refreshing}
